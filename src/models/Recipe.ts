@@ -1,5 +1,10 @@
 import { Schema, model, Document } from "mongoose";
 
+export interface IIngredient {
+  name: string;
+  measure?: string;
+}
+
 export interface IRecipe extends Document {
   title: string;
   category: string;
@@ -7,11 +12,11 @@ export interface IRecipe extends Document {
   time?: string;
   servings?: string;
   instructions?: string;
-  ingredients?: { name: string; measure?: string }[];
+  ingredients?: IIngredient[];
   createdAt: Date;
 }
 
-const IngredientSchema = new Schema(
+const IngredientSchema = new Schema<IIngredient>(
   {
     name: { type: String, required: true },
     measure: { type: String },
@@ -27,7 +32,7 @@ const RecipeSchema = new Schema<IRecipe>(
     time: { type: String },
     servings: { type: String },
     instructions: { type: String },
-    ingredients: { type: [IngredientSchema], default: [] },
+    ingredients: { type: [IngredientSchema], default: [] }
   },
   { timestamps: true }
 );
